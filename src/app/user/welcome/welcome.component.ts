@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IUser} from '../../interfaces/IUser';
+import {UserService} from '../service/user.service';
 
 @Component({
   selector: 'app-welcome',
@@ -9,9 +10,9 @@ import {IUser} from '../../interfaces/IUser';
 export class WelcomeComponent implements OnInit {
 
   user: IUser;
+  loginProccess: boolean = false;
 
-  constructor() {
-
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
@@ -25,6 +26,17 @@ export class WelcomeComponent implements OnInit {
 
   login() {
     // login user
+    this.loginProccess = true;
+    this.userService.login(this.user).subscribe(
+      (resp) => {
+        console.log(resp);
+        this.loginProccess = false;
+      },
+      (err) => {
+        console.log(err);
+        this.loginProccess = false;
+      }
+    );
 
   }
 }
