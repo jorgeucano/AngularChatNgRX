@@ -11,6 +11,7 @@ export class WelcomeComponent implements OnInit {
 
   user: IUser;
   loginProccess: boolean = false;
+  error: boolean = false;
 
   constructor(private userService: UserService) {
   }
@@ -31,9 +32,10 @@ export class WelcomeComponent implements OnInit {
       (resp) => {
         console.log(resp);
         this.loginProccess = false;
+        this.error = !resp;
       },
       (err) => {
-        console.log(err);
+        console.log('err', err);
         this.loginProccess = false;
       }
     );
