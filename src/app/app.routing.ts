@@ -1,11 +1,8 @@
 import {  Routes } from '@angular/router';
-import {WelcomeComponent} from './welcome/welcome.component';
+import {WelcomeComponent} from './user/welcome/welcome.component';
 
 export const appRoutes: Routes = [
-  { path: '', component: WelcomeComponent },
-  { path: '',
-    redirectTo: '/',
-    pathMatch: 'full'
-  },
-  { path: '**', redirectTo: '/' }
-]
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', loadChildren:  './user/user.module#UserModule' },
+  { path: '**', redirectTo: '/login' }
+];

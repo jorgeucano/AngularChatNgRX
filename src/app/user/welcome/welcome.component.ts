@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {IUser} from '../../interfaces/IUser';
 
 @Component({
   selector: 'app-welcome',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  user: IUser;
 
-  ngOnInit() {
+  constructor() {
+
   }
 
+  ngOnInit() {
+    // fake login
+    this.user = {
+      username: 'jorgeucano',
+      email: 'jorgeuc@no.com',
+      password: 'jorgeucano'
+    };
+  }
+
+  login() {
+    // login user
+
+  }
 }
