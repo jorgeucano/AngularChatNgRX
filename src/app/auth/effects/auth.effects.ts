@@ -36,8 +36,8 @@ export class AuthEffects {
     ofType<LoginUser>(AuthActionTypes.LoginUser),
     tap(v => console.log('loginUser effect', v)),
     mergeMap(action =>
-      this.authService.login({ 
-          email: action.payload.user, 
+      this.authService.login({
+          email: action.payload.user,
           username: '',
           password: action.payload.pass})
     )
