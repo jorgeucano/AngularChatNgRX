@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {IUser} from '../../interfaces/IUser';
-import {AuthService} from '../services/auth.service';
-import {UserService} from '../../user/service/user.service';
+
+import { Store, select } from '@ngrx/store';
+import * as fromAuth from '../reducers/auth.reducer';
+import * as Auth from '../actions/auth.action';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +13,13 @@ import {UserService} from '../../user/service/user.service';
 export class LoginComponent implements OnInit {
 
   user: IUser;
-  loginProccess: boolean;
-  error: boolean = false;
 
-  // constructor(private authService: AuthService) {
-  constructor(private userService: UserService) {
-    this.loginProccess = false;
+  // error$ = this.store.select(state => state.error);
+  error$ = this.store.select(fromAuth.getAuthError);
+  isLoading$ = this.store.pipe(select(fromAuth.getAuthLoading));
+
+  constructor(private store: Store<fromAuth.State>) {
+
   }
 
   ngOnInit() {
@@ -32,18 +35,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     // login user
-    this.loginProccess = true;
-    this.userService.login(this.user).subscribe(
-      (resp) => {
-        console.log(resp);
-        this.loginProccess = false;
-        this.error = !resp;
-      },
-      (err) => {
-        console.log('err', err);
-        this.loginProccess = false;
-      }
-    );
+    this.store.dispatch(new Auth.LoginUser({user: this.user}));
 
   }
 

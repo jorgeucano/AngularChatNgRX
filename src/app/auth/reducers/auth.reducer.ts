@@ -16,12 +16,18 @@ const initialState: State = {
   isLoading: false
 };
 
-export function AuthReducer(state = [], action: AuthActions.actions) {
+export function AuthReducer(state = initialState, action: AuthActions.actions) {
 
   switch (action.type) {
     case AuthActionTypes.LoginUser:
-      return action;
+      console.log('reducer entre en login');
+      return {
+        ...state,
+        isLoading: true,
+        action: action
+      };
     case AuthActionTypes.LoggedUser:
+      console.log('entre al logged');
       return {
         ...state,
         isLoading: true,
@@ -42,3 +48,4 @@ export function AuthReducer(state = [], action: AuthActions.actions) {
 export const getAuthState = (state: State) => state.user;
 export const getAuthAction = (action: any) => action.payload;
 export const getAuthError = (state: State) => state.error;
+export const getAuthLoading = (state: State) => state.isLoading;

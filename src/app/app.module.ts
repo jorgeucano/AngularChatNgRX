@@ -29,9 +29,10 @@ const NGRX_IMPORTS = [
   StoreDevtoolsModule.instrument({
     name: 'AngularChatNGRX',
     logOnly: environment.production,
+    maxAge: 25
   }),
   EffectsModule.forRoot([])
-]
+];
 
 @NgModule({
   declarations: [
