@@ -14,11 +14,10 @@ export class LoginComponent implements OnInit {
 
   user: IUser;
 
-  // error$ = this.store.select(state => state.error);
-  error$ = this.store.select(fromAuth.getAuthError);
-  isLoading$ = this.store.pipe(select(fromAuth.getAuthLoading));
+  error$ = this.store.select(state => state.auth.error);
+  isLoading$ = this.store.select(state => state.auth.isLoading);
 
-  constructor(private store: Store<fromAuth.State>) {
+  constructor(private store: Store<any>) {
 
   }
 
@@ -36,7 +35,6 @@ export class LoginComponent implements OnInit {
   login() {
     // login user
     this.store.dispatch(new Auth.LoginUser({user: this.user}));
-
   }
 
 }
