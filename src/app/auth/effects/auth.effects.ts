@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import {catchError, exhaustMap, map, mergeMap, tap} from 'rxjs/operators';
+import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
 
 import {
   AuthActionTypes,
@@ -11,7 +11,7 @@ import {
   LoginUserError
 } from '../actions/auth.action';
 import {AuthService} from '../services/auth.service';
-import {IUser} from '../../interfaces/IUser';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -45,15 +45,14 @@ export class AuthEffects {
     })
   );
 
-  @Effect()
-  LoggedUser$: Observable<Action> = this.actions$.pipe(
+  @Effect({ dispatch: false })
+  LoggedUser$ = this.actions$.pipe(
     ofType<LoggedUser>(AuthActionTypes.LoggedUser),
-    tap(v => console.log('LoggedUser payload', v.payload)),
-    map( data => {
-      console.log(data);
-      return { type: '', payload: data };
-    })
+    tap(v => this.router.navigate(['/chats']))
   );
 
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private router: Router) {}
 }
