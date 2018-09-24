@@ -14,6 +14,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers, metaReducers } from './reducers/reducers';
 
 
+// firebase
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire';
+
 // configs
 import { appRoutes } from './app.routing';
 import { environment } from '../environments/environment';
@@ -22,6 +27,11 @@ import { environment } from '../environments/environment';
 // components
 import { AppComponent } from './app.component';
 
+const FIRE_IMPORTS = [
+  AngularFireModule.initializeApp(environment.firebase),
+  AngularFirestoreModule,
+  AngularFireAuthModule
+];
 
 const NGRX_IMPORTS = [
   StoreModule.forRoot(reducers, { metaReducers }),
@@ -42,7 +52,8 @@ const NGRX_IMPORTS = [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     FormsModule,
-    ...NGRX_IMPORTS
+    ...NGRX_IMPORTS,
+    ...FIRE_IMPORTS
   ],
   providers: [],
   bootstrap: [AppComponent]

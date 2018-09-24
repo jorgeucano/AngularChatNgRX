@@ -1,51 +1,28 @@
-import * as AuthActions from '../actions/auth.action';
-import {AuthActionTypes} from '../actions/auth.action';
+import * as userActions from '../actions/auth.action';
+import { User } from '../models/user';
 
+export type Action = userActions.All;
 
-export interface State {
-  user: Array<any>;
-  tokens: Array<any>;
-  error: string;
-  isLoading: boolean;
-}
+const defaultUser = new User(null, 'GUEST');
 
-const initialState: State = {
-  user: [],
-  tokens: [],
-  error: '',
-  isLoading: false
-};
+export function userReducer (state: User = defaultUser, action: Action) {
+  switch(action.type) {
+    case userActions.AuthActionTypes.GET_USER :
+      return { ...state, loading: true};
+    
+    case userActions.AuthActionTypes.AUTHENTICATED:
+      return { ...state, ...action.payload, loading: false }
+    
+    case userActions.AuthActionTypes.NOT_AUTHENTICATED:
+        return { ...state, ...defaultUser, loading: false };
 
-export function AuthReducer(state = initialState, action: AuthActions.actions) {
+    case userActions.AuthActionTypes.GOOGLE_LOGIN:
+      return { ...state, loading: true };
 
-  switch (action.type) {
-    case AuthActionTypes.LoginUser:
-      console.log('reducer entre en login');
-      return {
-        ...state,
-        isLoading: true,
-        action: action
-      };
-    case AuthActionTypes.LoggedUser:
-      console.log('entre al logged');
-      return {
-        ...state,
-        isLoading: true,
-        tokens: action.payload,
-      };
-    case AuthActionTypes.LoginUserError:
-      return {
-        ...state,
-        isLoading: false,
-        error: 'Email or password incorrect'
-      };
-    default:
-      return state;
+    case userActions.AuthActionTypes.AUTH_ERROR:
+      return { ...state, ...action.payload, loading: false };
+
+    case userActions.AuthActionTypes.LOGOUT:
+      return { ...state, loading: true };
   }
-
 }
-
-export const getAuthState = (state: State) => state.user;
-export const getAuthAction = (action: any) => action.payload;
-export const getAuthError = (state: State) => state.error;
-export const getAuthLoading = (state: State) => state.isLoading;

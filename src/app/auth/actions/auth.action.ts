@@ -1,47 +1,53 @@
 import { Action } from '@ngrx/store';
-import {IUser} from '../../interfaces/IUser';
+import { User } from '../models/user';
 
 export enum AuthActionTypes {
-  LoggedUser = '[Auth] LOGED_USER',
-  LoginUser = '[Auth] LOGIN_USER',
-  LoginUserError = '[Auth] LOGIN_USER_ERROR',
-  LoggedIn = '[Auth] LOGGED_IN',
-  LogoutAuth = '[Auth] LOGOUT_USER',
+  GET_USER = '[Auth] Get User',
+  AUTHENTICATED = '[Auth] Authenticate',
+  NOT_AUTHENTICATED = '[Auth] not Authenticate',
+  GOOGLE_LOGIN = '[Auth] Google login attempt',
+  LOGOUT = '[Auth] Logout',
+  AUTH_ERROR = '[Auth] Error'
 }
 
-export class LoggedIn implements Action {
-  readonly type = AuthActionTypes.LoggedIn;
-
-  constructor(public payload: { isLogin: boolean }) {}
+export class GetUser implements Action {
+  readonly type = AuthActionTypes.GET_USER;
+  constructor (public payload?:any) {}
 }
 
-export class LogoutAuth implements Action {
-  readonly type = AuthActionTypes.LogoutAuth;
-  constructor(public payload: {isLogout: boolean}) {}
+export class Authenticated implements Action {
+  readonly type = AuthActionTypes.AUTHENTICATED;
+  constructor(public payload?: any) {}
 }
 
-export class LoginUser implements Action {
-  readonly type = AuthActionTypes.LoginUser;
-
-  constructor(public payload: {user: IUser}) { }
+export class NotAuthenticated implements Action {
+  readonly type = AuthActionTypes.NOT_AUTHENTICATED;
+  constructor(public payload?: any) {}
 }
 
-export class LoggedUser implements Action {
-  readonly type = AuthActionTypes.LoggedUser;
-  constructor(public payload: {isLoading: boolean, error: boolean, user: IUser}) { }
+export class AuthError implements Action {
+  readonly type = AuthActionTypes.AUTH_ERROR;
+  constructor(public payload?: any) {}
 }
 
-export class LoginUserError implements Action {
-  readonly type = AuthActionTypes.LoginUserError;
+/// Google Login Actions
 
-  constructor(public payload: {error: string}) { }
+export class GoogleLogin implements Action {
+  readonly type = AuthActionTypes.GOOGLE_LOGIN;
+  constructor(public payload?: any) {}
 }
 
+/// Logout Actions
 
-export type actions =
-  LoggedIn
-  | LogoutAuth
-  | LoginUser
-  | LoggedUser
-  | LoginUserError
-;
+export class Logout implements Action {
+  readonly type = AuthActionTypes.LOGOUT;
+  constructor(public payload?: any) {}
+}
+
+export type All
+= GetUser 
+| Authenticated
+| NotAuthenticated
+| GoogleLogin
+| AuthError
+| Logout;

@@ -81,4 +81,4 @@ export const getAuthLoading = createSelector(
 export const getAuthError = createSelector(
   getAuthState,
   fromAuth.getAuthError
-)
+);
