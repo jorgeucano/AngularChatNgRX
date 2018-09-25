@@ -6,13 +6,11 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
 
 import { Observable, of, from } from 'rxjs';
-import { map, switchMap, delay, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import * as userActions from '../actions/auth.action';
-import { Logout } from '../actions/auth.action';
 
 export type Action = userActions.All;
-
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +24,8 @@ export class UserEffects {
     .pipe(
       map((action: userActions.GetUser) => action.payload),
       switchMap(payload => this.afAuth.authState),
-      delay(2000), //solamente sirve para mostrar el spinner
       map( authData => {
-        if(authData) {
+        if (authData) {
           const user = new User(authData.uid, authData.displayName);
           return new userActions.Authenticated(user);
         } else {
@@ -37,7 +34,7 @@ export class UserEffects {
       }),
       catchError (err => of(new userActions.AuthError()))
       );
-    
+
       @Effect()
       login: Observable<Action> = this.actions.ofType(userActions.AuthActionTypes.GOOGLE_LOGIN)
         .pipe(
@@ -57,7 +54,6 @@ export class UserEffects {
         const provider = new firebase.auth.GoogleAuthProvider();
         return this.afAuth.auth.signInWithPopup(provider);
       }
-    
 
      @Effect()
       Logout: Observable<Action> = this.actions.ofType(userActions.AuthActionTypes.LOGOUT)
@@ -69,7 +65,10 @@ export class UserEffects {
           map( authData => {
             return new userActions.NotAuthenticated();
           }),
-          catchError(err => of(new userActions.AuthError({err: err.message})))
+          catchError(err => {
+            console.log('logout', err);
+            return of(new userActions.AuthError({err: err.message}));
+          })
         )
       ;
 }

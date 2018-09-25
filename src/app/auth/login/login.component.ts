@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {IUser} from '../../interfaces/IUser';
 
+import * as userActions from '../actions/auth.action';
 import { Store, select } from '@ngrx/store';
 import * as fromAuth from '../../reducers/reducers';
-import * as Auth from '../actions/auth.action';
 
 @Component({
   selector: 'app-login',
@@ -12,29 +11,23 @@ import * as Auth from '../actions/auth.action';
 })
 export class LoginComponent implements OnInit {
 
-  user: IUser;
 
-  error$ = this.store.select(fromAuth.getAuthError);
-  isLoading$ = this.store.select(fromAuth.getAuthLoading);
+  user: any;
 
-  constructor(private store: Store<fromAuth.State>) {
-
-  }
+  constructor(private store: Store<fromAuth.State>) { }
 
   ngOnInit() {
-
-    // fake login
-    this.user = {
-      username: 'jorgeucano',
-      email: 'jorgeuc@no.com',
-      password: 'jorgeucano'
-    };
-
+    this.store.dispatch(new userActions.GetUser());
+    this.user = this.store.pipe(select(fromAuth.getAuth));
   }
 
-  login() {
-    // login user
-    this.store.dispatch(new Auth.LoginUser({user: this.user}));
+  googleLogin() {
+    this.store.dispatch(new userActions.GoogleLogin());
   }
+
+  logout() {
+    this.store.dispatch(new userActions.Logout());
+  }
+
 
 }

@@ -12,7 +12,7 @@ export enum AuthActionTypes {
 
 export class GetUser implements Action {
   readonly type = AuthActionTypes.GET_USER;
-  constructor (public payload?:any) {}
+  constructor (public payload?: any) {}
 }
 
 export class Authenticated implements Action {
@@ -45,7 +45,7 @@ export class Logout implements Action {
 }
 
 export type All
-= GetUser 
+= GetUser
 | Authenticated
 | NotAuthenticated
 | GoogleLogin

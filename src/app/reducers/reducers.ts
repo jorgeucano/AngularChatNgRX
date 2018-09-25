@@ -30,7 +30,7 @@ import {
     * nuestra interfaz de estado de nivel superior es solo un mapa de las claves de los tipos de estado interno.
    */
   export interface State {
-    auth: fromAuth.State,
+    auth: fromAuth.State;
     router: fromRouter.RouterReducerState<RouterStateUrl>;
   }
 
@@ -40,7 +40,7 @@ import {
     * y el estado actual o inicial y devuelve un nuevo estado inmutable.
    */
   export const reducers: ActionReducerMap<State|any> = {
-    auth: fromAuth.AuthReducer,
+    auth: fromAuth.userReducer,
     router: fromRouter.routerReducer,
   };
 
@@ -71,14 +71,3 @@ import {
     getAuthState,
     fromAuth.getAuthState
   );
-
-
-export const getAuthLoading = createSelector(
-  getAuthState,
-  fromAuth.getAuthLoading
-);
-
-export const getAuthError = createSelector(
-  getAuthState,
-  fromAuth.getAuthError
-);
